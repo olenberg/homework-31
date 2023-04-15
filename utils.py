@@ -4,7 +4,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'avito.settings')
 application = get_wsgi_application()
 import csv
 from pathlib import Path
-from ads.models import Category, Ad
+from ads.models import Ad
+from categories.models import Category
 from users.models import Location, User
 
 
