@@ -1,37 +1,30 @@
-import json
+import os
+from django.core.wsgi import get_wsgi_application
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'avito.settings')
+application = get_wsgi_application()
 import csv
 from pathlib import Path
+from ads.models import Category, Ad
+from users.models import Location, User
 
 
 PATH_TO_DATA = Path.cwd() / "datasets"
-CSV_ADS = "ads.csv"
-JSON_ADS = "ads.json"
-CSV_CATEGORIES = "categories.csv"
-JSON_CATEGORIES = "categories.json"
+CSV_ADS = "ad.csv"
+CSV_CATEGORIES = "category.csv"
+CSV_LOCATION = "location.csv"
+CSV_USER = "user.csv"
 
 
-def csv_to_json(csvfile, jsonfile, model_name):
-    with open(PATH_TO_DATA / csvfile, mode="r", encoding="utf-8") as f:
-        result = []
-        for row in csv.DictReader(f):
-            to_add = {"model": model_name, "pk": int(row["Id"] if "Id" in row else row["id"])}
-            if "Id" in row:
-                del row["Id"]
-            else:
-                del row["id"]
-            if "price" in row:
-                row["price"] = int(row["price"])
-            if "is_published" in row:
-                if row["is_published"] == "TRUE":
-                    row["is_published"] = True
-                else:
-                    row["is_published"] = False
-            to_add["fields"] = row
-            result.append(to_add)
-
-    with open(PATH_TO_DATA / jsonfile, mode="w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=4)
-
-
-csv_to_json(CSV_CATEGORIES, JSON_CATEGORIES, "ads.category")
-csv_to_json(CSV_ADS, JSON_ADS, "ads.ad")
+with open(PATH_TO_DATA / CSV_ADS, "r", encoding="utf-8") as f:
+    for i in csv.DictReader(f):
+        user = User.objects.get(pk=i["author_id"])
+        category = Category.objects.get(pk=i["category_id"])
+        Ad.objects.create(
+            name=i["name"],
+            author=user,
+            price=i["price"],
+            description=i["description"],
+            is_published=True if i["is_published"] == "TRUE" else False,
+            image=i["image"],
+            category=category
+        )
