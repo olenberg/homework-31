@@ -24,7 +24,7 @@ class AdListView(ListAPIView):
     def get(self, request, *args, **kwargs):
         category_id = request.GET.get("cat", None)
         if category_id:
-            self.queryset = self.queryset.filter(category_id__exact=int(category_id))
+            self.queryset = self.queryset.filter(category_id__exact=category_id)
 
         ad_text = request.GET.get("text", None)
         if ad_text:
