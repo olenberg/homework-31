@@ -3,8 +3,8 @@ from django.db import models
 
 class Location(models.Model):
     name = models.CharField(max_length=150)
-    lat = models.FloatField(null=True)
-    lng = models.FloatField(null=True)
+    lat = models.DecimalField(max_digits=8, decimal_places=6, null=True)
+    lng = models.DecimalField(max_digits=8, decimal_places=6, null=True)
 
     class Meta:
         verbose_name = "Локация"
@@ -21,7 +21,7 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
-    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True)
+    location = models.ManyToManyField(Location)
 
     class Meta:
         verbose_name = "Пользователь"
