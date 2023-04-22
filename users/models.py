@@ -14,7 +14,7 @@ class Location(models.Model):
         return self.name
 
 
-class UserRole(models.TextChoices):
+class UserRoles(models.TextChoices):
     ADMIN = "admin", "Администратор"
     MODERATOR = "moderator", "Модератор"
     MEMBER = "member", "Пользователь"
@@ -25,7 +25,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    role = models.CharField(max_length=100, choices=UserRole.choices)
+    role = models.CharField(max_length=100, choices=UserRoles.choices, default=UserRoles.MEMBER)
     age = models.PositiveIntegerField()
     location = models.ManyToManyField(Location)
 
