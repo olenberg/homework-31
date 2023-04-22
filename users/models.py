@@ -15,9 +15,9 @@ class Location(models.Model):
 
 
 class UserRole(models.TextChoices):
-    ADMIN = "admin"
-    MODERATOR = "moderator"
-    MEMBER = "member"
+    ADMIN = "admin", "Администратор"
+    MODERATOR = "moderator", "Модератор"
+    MEMBER = "member", "Пользователь"
 
 
 class User(models.Model):
