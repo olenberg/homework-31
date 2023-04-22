@@ -14,12 +14,18 @@ class Location(models.Model):
         return self.name
 
 
+class UserRole(models.TextChoices):
+    ADMIN = "admin"
+    MODERATOR = "moderator"
+    MEMBER = "member"
+
+
 class User(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
+    role = models.CharField(max_length=100, choices=UserRole.choices)
     age = models.PositiveIntegerField()
     location = models.ManyToManyField(Location)
 
