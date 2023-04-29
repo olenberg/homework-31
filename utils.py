@@ -39,6 +39,11 @@ def convert(csv_file, json_file, model):
                     row["is_published"] = True
                 else:
                     row["is_published"] = False
+
+            if "location_id" in row:
+                row["locations"] = [row["location_id"]]
+                del row["location_id"]
+
             result.append({"model": model, "fields": row})
     with open(PATH_TO_DATA / json_file, "w", encoding="utf-8") as json_f:
         json_f.write(json.dumps(result, ensure_ascii=False))
@@ -46,7 +51,7 @@ def convert(csv_file, json_file, model):
 
 
 if __name__ == "__main__":
-    convert("category.csv", "category.json", "categories.category")
-    convert("ad.csv", "ad.json", "ads.ad")
-    convert("location.csv", "location.json", "users.location")
+    # convert("category.csv", "category.json", "categories.category")
+    # convert("ad.csv", "ad.json", "ads.ad")
+    # convert("location.csv", "location.json", "users.location")
     convert("user.csv", "user.json", "users.user")

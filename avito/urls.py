@@ -15,6 +15,7 @@ urlpatterns = [
     path('categories/', include("categories.urls")),
     path('ads/', include("ads.urls")),
     path('users/', include("users.urls")),
+    path('selections/', include("selections.urls")),
 ]
 
 urlpatterns += router.urls
