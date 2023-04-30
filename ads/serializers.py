@@ -5,13 +5,11 @@ from rest_framework import serializers
 
 class AdListSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True,
         slug_field="username",
         queryset=User.objects.all()
     )
 
     category = serializers.SlugRelatedField(
-        read_only=True,
         slug_field="name",
         queryset=Category.objects.all()
     )
@@ -57,9 +55,13 @@ class AdCreateSerializer(serializers.ModelSerializer):
 
 
 class AdUpdateSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.IntegerField()
     image = serializers.ImageField(required=False)
-    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    author = serializers.SlugRelatedField(
+        required=False,
+        queryset=User.objects.all(),
+        slug_field='username'
+    )
 
     category = serializers.SlugRelatedField(
         required=False,

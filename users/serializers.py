@@ -10,8 +10,8 @@ class UserListSerializer(serializers.ModelSerializer):
 
 class UserDetailSerializer(serializers.ModelSerializer):
     location = serializers.SlugRelatedField(
+        queryset=Location.objects.all(),
         many=True,
-        read_only=True,
         slug_field="name"
     )
 
