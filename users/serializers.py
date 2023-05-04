@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import User, Location
+from users.validators import not_rambler_email
 
 
 class UserListSerializer(serializers.ModelSerializer):
